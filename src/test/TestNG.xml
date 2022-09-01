@@ -2,8 +2,12 @@
 
 <suite name="Tests FTP client">
     <test name="Functional tests" >
+        <parameter name = "name" value="aleksandr"/>
+        <parameter name = "pass" value="root"/>
+        <parameter name = "ip" value="192.168.143.129"/>
+        <parameter name = "testFile" value="students_test.txt"/>
         <classes>
-            <class name="BaseFunctionalTests" />
+            <class name="functionalTest.BaseFunctionalTests" />
         </classes>
     </test>
 </suite>

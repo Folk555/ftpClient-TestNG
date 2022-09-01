@@ -32,4 +32,10 @@ public class Student {
     public String toString() {
         return String.format("Id: %d Name: %s", id, name);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        Student student = (Student) obj;
+        return this.id==student.id && this.name.equals(student.name);
+    }
 }

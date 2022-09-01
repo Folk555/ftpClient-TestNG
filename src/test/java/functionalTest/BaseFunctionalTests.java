@@ -1,8 +1,11 @@
+package functionalTest;
+
 import com.turulin.Student;
 import com.turulin.UserFtpClient;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import java.util.Collections;
@@ -11,11 +14,19 @@ import java.util.HashMap;
 public class BaseFunctionalTests {
     UserFtpClient userFtpClient;
     HashMap<String, Student> correctStds = new HashMap<>();
-    String filePath = "students_test.txt";
+    String filePath;
+    String username;
+    String password;
+    String ipAddress;
 
     @BeforeClass
-    public void setup() throws Exception {
-        userFtpClient = new UserFtpClient("aleksandr", "root", "192.168.143.129");
+    @Parameters({"name","pass","ip", "testFile"})
+    public void setup(String name, String pass, String ip, String testFile) throws Exception {
+        username = name;
+        password = pass;
+        ipAddress = ip;
+        filePath = testFile;
+        userFtpClient = new UserFtpClient(username, password, ipAddress);
         correctStds.put("1", new Student(1, "std1"));
         correctStds.put("2", new Student(2, "std2"));
         correctStds.put("3", new Student(3, "std3"));
@@ -73,7 +84,7 @@ public class BaseFunctionalTests {
 
     @Test(priority=80)
     public void remoteFileShouldBeEdited() throws Exception {
-        userFtpClient = new UserFtpClient("aleksandr", "root", "192.168.143.129");
+        userFtpClient = new UserFtpClient(username, password, ipAddress);
         downloadFile_should();
 
         Assert.assertEquals(userFtpClient.getCacheStudents().size(), 4);
@@ -81,7 +92,7 @@ public class BaseFunctionalTests {
 
     @AfterClass
     public void updateFileToDefault() throws Exception {
-        userFtpClient = new UserFtpClient("aleksandr", "root", "192.168.143.129");
+        userFtpClient = new UserFtpClient(username, password, ipAddress);
         userFtpClient.downloadFile(filePath);
         userFtpClient.getCacheStudents().clear();
         userFtpClient.getCacheStudents().putAll(correctStds);
