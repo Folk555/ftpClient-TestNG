@@ -1,4 +1,4 @@
-<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 <suite name="Tests FTP client">
     <test name="Functional tests" >
@@ -7,7 +7,7 @@
         <parameter name = "ip" value="192.168.143.129"/>
         <parameter name = "testFile" value="students_test.txt"/>
         <classes>
-            <class name="functionalTest.BaseFunctionalTests" />
+            <class name="com.turulin.BaseFunctionalTests" />
         </classes>
     </test>
 </suite>

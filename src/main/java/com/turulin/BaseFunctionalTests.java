@@ -1,7 +1,5 @@
-package functionalTest;
+package com.turulin;
 
-import com.turulin.Student;
-import com.turulin.UserFtpClient;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -34,28 +32,28 @@ public class BaseFunctionalTests {
     }
 
     @Test(priority=10)
-    public void downloadFile_should() throws Exception {
+    public void downloadFile_shouldCreateLocalFile() throws Exception {
         String localDownloadedFile = userFtpClient.downloadFile(filePath);
 
         Assert.assertNotNull(localDownloadedFile);
     }
 
     @Test(priority=20)
-    public void getCacheStudents_should() {
+    public void getCacheStudents_shouldReturnCorrectStudents() {
         HashMap<String, Student> students = userFtpClient.getCacheStudents();
 
         Assert.assertEquals(students, correctStds);
     }
 
     @Test(priority=30)
-    public void getStudentById_should() {
+    public void getStudentById_shouldReturnCorrectStd() {
         Student student = userFtpClient.getStudentById(1);
 
         Assert.assertEquals(student, new Student(1, "std1"));
     }
 
     @Test(priority=40)
-    public void addStudent_should() {
+    public void addStudent_shouldAddNewStd() {
         userFtpClient.addStudent(new Student(0, "std4"));
 
         Student actualStudent = userFtpClient.getCacheStudents().get("4");
@@ -64,7 +62,7 @@ public class BaseFunctionalTests {
     }
 
     @Test(priority=50)
-    public void removeStudentById_should() {
+    public void removeStudentById_shouldRemoveCorrectStudent() {
         userFtpClient.addStudent(new Student(0, "std5"));
 
         userFtpClient.removeStudentById(5);
@@ -73,19 +71,19 @@ public class BaseFunctionalTests {
     }
 
     @Test(priority=60)
-    public void updateFile_should() throws Exception {
+    public void updateFile_shouldNotThrowException() throws Exception {
         userFtpClient.updateFile();
     }
 
     @Test(priority=70)
-    public void close_should() throws Exception {
+    public void close_shouldNotThrowException() throws Exception {
         userFtpClient.close();
     }
 
     @Test(priority=80)
     public void remoteFileShouldBeEdited() throws Exception {
         userFtpClient = new UserFtpClient(username, password, ipAddress);
-        downloadFile_should();
+        userFtpClient.downloadFile(filePath);
 
         Assert.assertEquals(userFtpClient.getCacheStudents().size(), 4);
     }
